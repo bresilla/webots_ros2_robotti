@@ -1,0 +1,83 @@
+#VRML_SIM R2023a utf8
+# license: Creative Commons Attribution 4.0 International License.
+# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# A simple green plant
+
+PROTO Crop [
+  field SFVec3f    translation       0 0 0
+  field SFRotation rotation          0 1 0 0
+  field SFVec3f    scale             0.015 0.015 0.015
+  field SFString   name              "plant"
+  field SFColor    color             0.133333 0.435294 0.105882
+  field SFInt32    nRows             1
+  field SFInt32    nCols             1
+  field SFFloat    nScale            1
+  field SFVec3f    distance          5.5 6.5 0
+  field SFBool     vertical          TRUE
+  field SFInt32    uniformity        1
+  field SFInt32    missing           1
+]
+{
+  %{
+    math.randomseed(os.time())
+    function higherChance(threshold)
+      local randomNum = math.random(1, 10)
+      if randomNum >= threshold then
+        return true
+      else
+        return false
+      end
+    end
+  }%
+  Transform {
+    translation IS translation
+    %{ r1 = fields.vertical.value and -1.5780 or 0 }%
+    %{ r2 = fields.vertical.value and 1 or 0 }%
+    rotation 0 0 %{=r2}% %{=r1}% 
+    scale IS scale
+    children [
+      %{ for i = 0, (fields.nCols.value - 1) do }%
+        %{ y = i * fields.distance.value.y }%
+        %{ for j = 0, (fields.nRows.value - 1) do }%
+          %{ x = j * fields.distance.value.x }%
+          %{ if higherChance(fields.missing.value) then }%
+            Solid{
+              %{ n = tostring(fields.name.value).."_"..tostring(i).."_"..tostring(j) }%
+              name "%{=n}%"
+              children [
+                Transform {
+                  translation %{=x}% %{=y}% 0
+                  %{ randy = math.random(1, math.pi * 2) }%
+                  rotation 0 0 1 %{=randy}%
+                  rotationStep 0.01
+                  %{
+                    scale = fields.nScale.value
+                    uniform = fields.uniformity.value
+                    s = scale * math.abs(1-(math.random(1, uniform)*0.1))+0.0001
+                  }%
+                  scale %{=s}% %{=s}% %{=s}%
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor IS color
+                        metalness 0
+                        IBLStrength 0
+                        occlusionMapStrength 0
+                        emissiveIntensity 0
+                      }
+                      geometry Mesh {
+                        url [
+                          "Plant.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        %{ end }%
+        %{ end }%
+      %{ end }%
+    ]
+  }
+}

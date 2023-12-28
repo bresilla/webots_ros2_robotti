@@ -1,0 +1,162 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "../protos/Robotti.proto"
+EXTERNPROTO "../protos/Crop.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Soil.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Grass.proto"
+
+WorldInfo {
+  info [
+    "This simulation shows a Robotti detecting humans in a field environment."
+  ]
+  title "Simulation of Agrointelli Robotti field robot"
+  CFM 0.0001
+  ERP 0.4
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      material1 "ground"
+      material2 "wheel_material"
+      coulombFriction [
+        5
+      ]
+      softERP 0.5
+      softCFM 1e-05
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.03653667024394079 -0.9969221473376739 0.0693635630221415 5.918781434162354
+  position -199.14738298317758 3.001068249070068 63.54207189717759
+  follow "Robotti"
+  followType "None"
+}
+TexturedBackground {
+  texture "noon_cloudy_countryside"
+}
+TexturedBackgroundLight {
+  texture "noon_cloudy_countryside"
+  luminosity 2
+}
+Solid {
+  children [
+    Shape {
+      appearance Grass {
+        colorOverride 0.477089 0.553338 0.26006
+        type "mossy"
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -120.5 -147.5 0
+            120.5 -147.5 0
+            -120.5 147.5 0
+            120.5 147.5 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            120.5 0
+            0 147.5
+            120.5 147.5
+          ]
+        }
+        coordIndex [
+          2, 0, 1, 3, -1
+        ]
+        texCoordIndex [
+          2, 0, 1, 3, -1
+        ]
+      }
+    }
+  ]
+  name "grass(2)"
+  model "floor"
+  contactMaterial "ground"
+  boundingObject Pose {
+    translation 0 0 0.005
+    children [
+      Box {
+        size 241 295 0.01
+      }
+    ]
+  }
+  locked TRUE
+}
+Robotti {
+  translation -33.57716673732033 -1.3806516036781975 0.013702978259684695
+  rotation -0.8618972711089271 -0.49221768575095876 -0.1218804491662014 0.0047607189179892165
+  controller "<extern>"
+  supervisor TRUE
+}
+Robot {
+  controller "<none>"
+  supervisor TRUE
+}
+DEF FIELD_MUD SolidBox {
+  translation -10 0 0
+  name "field mud(1)"
+  size 135 50 0.1
+  contactMaterial "ground"
+  appearance Soil {
+    textureTransform TextureTransform {
+      scale 100 100
+    }
+    color 0.233341 0.176318 0.112779
+  }
+  castShadows FALSE
+}
+Crop {
+  translation -70 0 0.03
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 2
+  name "plant1"
+}
+Crop {
+  translation -70 3.2 0.03
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 2
+  missing 2
+  name "plant2"
+}
+Crop {
+  translation -70 6.4 0.03
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 3
+  name "plant3"
+}
+Crop {
+  translation -70 -3.2 0.03
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 2
+  missing 3
+  name "plant4"
+}
+Crop {
+  translation -70 -6.4 0.03
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 2
+  name "plant5"
+}

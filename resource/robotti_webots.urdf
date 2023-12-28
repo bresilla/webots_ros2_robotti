@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="Robotti">
+    <webots>
+        <plugin type="webots_ros2_robotti.robotti_driver.RobottiDriver" />
+    </webots>
+</robot>

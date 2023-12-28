@@ -1,0 +1,37 @@
+#VRML_SIM R2023a utf8
+# license: Creative Commons Attribution 4.0 International License.
+# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# A simple green plant
+
+PROTO Plant [
+  field SFVec3f    translation       0 0 0
+  field SFRotation rotation          0 1 0 0
+  field SFVec3f    scale             0.015 0.015 0.015
+  field SFString   name              "plant"
+  field SFColor    color             0.133333 0.435294 0.105882
+]
+{
+  Transform{
+    translation IS translation
+    %{ randy = math.random(1, math.pi * 2) }%
+    # rotation IS rotation
+    rotation 0 0 1 %{=randy}%
+    scale IS scale
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+          metalness 0
+          IBLStrength 0
+          occlusionMapStrength 0
+          emissiveIntensity 0
+        }
+        geometry Mesh {
+          url [
+            "Plant.stl"
+          ]
+        }
+      }
+    ]
+  }
+}
