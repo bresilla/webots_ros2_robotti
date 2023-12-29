@@ -15,6 +15,8 @@ WorldInfo {
   title "Simulation of Agrointelli Robotti field robot"
   CFM 0.0001
   ERP 0.4
+  gpsCoordinateSystem "WGS84"
+  gpsReference 52.5354 5.56031 0
   lineScale 1
   contactProperties [
     ContactProperties {
@@ -30,7 +32,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.03653667024394079 -0.9969221473376739 0.0693635630221415 5.918781434162354
-  position -199.14738298317758 3.001068249070068 63.54207189717759
+  position -82.93201142690721 0.2239978763950499 19.332879003340647
   follow "Robotti"
   followType "None"
 }
@@ -92,6 +94,14 @@ Robotti {
   rotation -0.8618972711089271 -0.49221768575095876 -0.1218804491662014 0.0047607189179892165
   controller "<extern>"
   supervisor TRUE
+  implementSlot [
+    GPS {
+    }
+    GPS {
+      translation -1 0 0
+      name "gps_aux"
+    }
+  ]
 }
 Robot {
   controller "<none>"
@@ -112,51 +122,51 @@ DEF FIELD_MUD SolidBox {
 }
 Crop {
   translation -70 0 0.03
+  name "plant1"
   nRows 6
   nCols 200
   nScale 4
   distance 30 40 0
   uniformity 3
   missing 2
-  name "plant1"
 }
 Crop {
   translation -70 3.2 0.03
+  name "plant2"
   nRows 6
   nCols 200
   nScale 4
   distance 30 40 0
   uniformity 2
   missing 2
-  name "plant2"
 }
 Crop {
   translation -70 6.4 0.03
+  name "plant3"
   nRows 6
   nCols 200
   nScale 4
   distance 30 40 0
   uniformity 3
   missing 3
-  name "plant3"
 }
 Crop {
   translation -70 -3.2 0.03
+  name "plant4"
   nRows 6
   nCols 200
   nScale 4
   distance 30 40 0
   uniformity 2
   missing 3
-  name "plant4"
 }
 Crop {
   translation -70 -6.4 0.03
+  name "plant5"
   nRows 6
   nCols 200
   nScale 4
   distance 30 40 0
   uniformity 3
   missing 2
-  name "plant5"
 }

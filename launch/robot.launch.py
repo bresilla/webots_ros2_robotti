@@ -20,7 +20,7 @@ def generate_launch_description():
     )
 
     robot_description_path = os.path.join(package_dir, 'resource', 'robotti_webots.urdf')
-    tesla_driver = WebotsController(
+    robotti_driver = WebotsController(
         robot_name='Robotti',
         parameters=[
             {'robot_description': robot_description_path}
@@ -33,7 +33,7 @@ def generate_launch_description():
         DeclareLaunchArgument('world', default_value='farm.wbt'),
         webots,
         webots._supervisor,
-        tesla_driver,
+        robotti_driver,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.RegisterEventHandler(

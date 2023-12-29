@@ -1,6 +1,9 @@
 import rclpy
 from ackermann_msgs.msg import AckermannDrive
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import NavSatFix, Imu
+from nav_msgs.msg import Odometry
+
 
 class RobottiDriver:
     def step(self):
@@ -8,7 +11,8 @@ class RobottiDriver:
 
     def init(self, webots_node, properties):
         self.__robot = webots_node.robot
-        self.FRONT_WHEEL_RADIUS = 0.38
+        self.FRONT_WHEEL_RADIUS = 0.7
+        self.WHEEL_SEPARATION = 3.0
 
         self.left_front_wheel = self.__robot.getDevice("left_front_wheel_joint_motor")
         self.left_front_wheel.setPosition(float('inf'))
@@ -23,39 +27,38 @@ class RobottiDriver:
         self.right_rear_wheel.setPosition(float('inf'))
         self.right_rear_wheel.setVelocity(0.0)
 
-
         # ROS interface
         rclpy.init(args=None)
         self.__node = rclpy.create_node('robotti_node')
+
+        self.__node.create_subscription(NavSatFix, '/Robotti/gps', self.main_callback, 10)
+        self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
+        self.gps_main = self.__node.create_publisher(NavSatFix, "/gps_main", 10)
+        self.gps_aux = self.__node.create_publisher(NavSatFix, "/gps_aux", 10)
         self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
         self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
 
+    def main_callback(self, msg):
+        msg.header.frame_id = "gps_main"
+        self.gps_main.publish(msg)
+    
+    def aux_callback(self, msg):
+        msg.header.frame_id = "gps_aux"
+        self.gps_aux.publish(msg)
+
+
     def __cmd_ackermann_callback(self, message):
-        self.set_speed(message.speed)
-        self.set_steering_angle(message.angular.z)
+        left, right = self.calculate_wheel_velocities(message.speed, message.steering_angle)
+        self.left_front_wheel.setVelocity(left)
+        self.right_front_wheel.setVelocity(right)
 
     def __cmd_vel_callback(self, message):
-        self.set_speed(message.linear.x)
-        self.set_steering_angle(message.angular.z)
+        left, right = self.calculate_wheel_velocities(message.linear.x, message.angular.z)
+        self.left_front_wheel.setVelocity(left)
+        self.right_front_wheel.setVelocity(right)
 
 
-    def set_speed(self, kmh):
-        if kmh > 30.0:
-            kmh = 30.0
-        self.speed = kmh
-        # print(f"setting speed to {kmh} km/h")
-        self.__node.get_logger().info(f'setting speed to {kmh} km/h')
-        front_ang_vel = kmh * 1000.0 / 3600.0 / self.FRONT_WHEEL_RADIUS
-        rear_ang_vel = kmh * 1000.0 / 3600.0 / self.FRONT_WHEEL_RADIUS
-        # set motor rotation speed
-        self.left_front_wheel.setVelocity(front_ang_vel)
-        self.right_front_wheel.setVelocity(front_ang_vel)
-        self.left_rear_wheel.setVelocity(rear_ang_vel)
-        self.right_rear_wheel.setVelocity(rear_ang_vel)
-
-
-    def set_steering_angle(self, wheel_angle):
-        pass
-        # self.steering_angle = min(0.94, max(-0.94, wheel_angle))
-        # self.left_steer.setPosition(self.steering_angle)
-        # self.right_steer.setPosition(self.steering_angle)
+    def calculate_wheel_velocities(self, linear_velocity, angular_velocity):
+        left_wheel_velocity = (linear_velocity - (self.WHEEL_SEPARATION * angular_velocity) / 2) / self.FRONT_WHEEL_RADIUS
+        right_wheel_velocity = (linear_velocity + (self.WHEEL_SEPARATION * angular_velocity) / 2) / self.FRONT_WHEEL_RADIUS
+        return left_wheel_velocity, right_wheel_velocity
