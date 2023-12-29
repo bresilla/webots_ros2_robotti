@@ -31,8 +31,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.03653667024394079 -0.9969221473376739 0.0693635630221415 5.918781434162354
-  position -82.93201142690721 0.2239978763950499 19.332879003340647
+  orientation -0.028457813966044295 -0.9986500505172603 0.04345376193320089 5.729168177621976
+  position -53.01184338787141 -2.6399492075935793 15.593998670743497
   follow "Robotti"
   followType "None"
 }
@@ -95,10 +95,31 @@ Robotti {
   controller "<extern>"
   supervisor TRUE
   implementSlot [
-    GPS {
+    Camera {
+      translation 1 0 1.2
+      rotation 0 1 0 0.523599
+      name "color_front"
+    }
+    RangeFinder {
+      translation 1 0 1.2
+      rotation 0 1 0 0.523599
+      name "depth_front"
+    }
+    Camera {
+      translation -1 0 1.2
+      rotation -0.2588189595935602 3.4339994638889944e-07 0.9659258492010602 3.14159
+      name "color_rear"
+    }
+    RangeFinder {
+      translation -1 0 1.2
+      rotation -0.2588189595935602 3.4339994638889944e-07 0.9659258492010602 3.14159
+      name "depth_rear"
     }
     GPS {
-      translation -1 0 0
+      translation 0 0 1.2
+    }
+    GPS {
+      translation -1 0 1.2
       name "gps_aux"
     }
   ]
