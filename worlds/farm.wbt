@@ -99,21 +99,31 @@ Robotti {
       translation 1 0 1.2
       rotation 0 1 0 0.523599
       name "color_front"
+        width 1280
+      height 720
     }
     RangeFinder {
       translation 1 0 1.2
       rotation 0 1 0 0.523599
       name "depth_front"
+      width 1280
+      height 720
+      maxRange 5
     }
     Camera {
       translation -1 0 1.2
       rotation -0.2588189595935602 3.4339994638889944e-07 0.9659258492010602 3.14159
       name "color_rear"
+      width 1280
+      height 720
     }
     RangeFinder {
       translation -1 0 1.2
       rotation -0.2588189595935602 3.4339994638889944e-07 0.9659258492010602 3.14159
       name "depth_rear"
+      width 1280
+      height 720
+      maxRange 5
     }
     GPS {
       translation 0 0 1.2

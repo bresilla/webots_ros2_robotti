@@ -46,16 +46,19 @@ class RobottiDriver:
         msg.header.frame_id = "gps_aux"
         self.gps_aux.publish(msg)
 
-
     def __cmd_ackermann_callback(self, message):
         left, right = self.calculate_wheel_velocities(message.speed, message.steering_angle)
         self.left_front_wheel.setVelocity(left)
+        self.left_rear_wheel.setVelocity(left)
         self.right_front_wheel.setVelocity(right)
+        self.right_rear_wheel.setVelocity(right)
 
     def __cmd_vel_callback(self, message):
         left, right = self.calculate_wheel_velocities(message.linear.x, message.angular.z)
         self.left_front_wheel.setVelocity(left)
+        self.left_rear_wheel.setVelocity(left)
         self.right_front_wheel.setVelocity(right)
+        self.right_rear_wheel.setVelocity(right)
 
 
     def calculate_wheel_velocities(self, linear_velocity, angular_velocity):
