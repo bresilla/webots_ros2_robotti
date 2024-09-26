@@ -3,7 +3,8 @@ from ackermann_msgs.msg import AckermannDrive
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import NavSatFix, Imu
 from nav_msgs.msg import Odometry
-
+from webots_ros2_msgs.msg import FloatStamped
+from std_msgs.msg import Float32
 
 class RobottiDriver:
     def step(self):
@@ -31,20 +32,40 @@ class RobottiDriver:
         rclpy.init(args=None)
         self.__node = rclpy.create_node('robotti_node')
 
+        self.gps_main_msg = NavSatFix()
+        self.gps_aux_msg = NavSatFix()
+        self.heading = Float32()
+
         self.__node.create_subscription(NavSatFix, '/Robotti/gps', self.main_callback, 10)
-        self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
         self.gps_main = self.__node.create_publisher(NavSatFix, "/gps_main", 10)
+        self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
         self.gps_aux = self.__node.create_publisher(NavSatFix, "/gps_aux", 10)
+        self.__node.create_subscription(FloatStamped, '/Robotti/compass/bearing', self.compass_callback, 10)
+        self.compass = self.__node.create_publisher(Float32, "/angle_rad", 10)
         self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
         self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
 
+        #timer
+        self.__node.create_timer(0.001, self.timer_callback)
+
     def main_callback(self, msg):
         msg.header.frame_id = "gps_main"
-        self.gps_main.publish(msg)
+        self.gps_main_msg = msg
+        # self.gps_main.publish(self.gps_main_msg)
     
     def aux_callback(self, msg):
         msg.header.frame_id = "gps_aux"
-        self.gps_aux.publish(msg)
+        self.gps_aux_msg = msg
+        # self.gps_aux.publish(self.gps_aux_msg)
+
+    def compass_callback(self, msg):
+        self.heading.data = msg.data
+        # self.compass.publish(self.heading)
+
+    def timer_callback(self):
+        self.gps_aux.publish(self.gps_aux_msg)
+        self.gps_main.publish(self.gps_main_msg)
+        self.compass.publish(self.heading)
 
 
     def __cmd_ackermann_callback(self, message):

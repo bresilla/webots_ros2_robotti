@@ -32,7 +32,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.03653667024394079 -0.9969221473376739 0.0693635630221415 5.918781434162354
-  position -82.93201142690721 0.2239978763950499 19.332879003340647
+  position -43.80543302225642 -0.7109667519208444 4.448837169601717
   follow "Robotti"
   followType "None"
 }
@@ -95,6 +95,12 @@ Robotti {
   controller "<extern>"
   supervisor TRUE
   implementSlot [
+    Compass {
+    }
+    Gyro {
+    }
+    Accelerometer {
+    }
     GPS {
     }
     GPS {
