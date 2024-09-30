@@ -31,8 +31,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.03653667024394079 -0.9969221473376739 0.0693635630221415 5.918781434162354
-  position -43.80543302225642 -0.7109667519208444 4.448837169601717
+  orientation 0.00959848427342443 0.9991538422576531 -0.03999335696614782 0.47118325060365285
+  position -23.898015447621017 -0.7069230707357679 13.034581304031793
   follow "Robotti"
   followType "None"
 }
@@ -44,6 +44,7 @@ TexturedBackgroundLight {
   luminosity 2
 }
 Solid {
+  translation 30 0 0
   children [
     Shape {
       appearance Grass {
@@ -90,7 +91,7 @@ Solid {
   locked TRUE
 }
 Robotti {
-  translation -33.57716673732033 -1.3806516036781975 0.013702978259684695
+  translation 0 0 0.013703
   rotation -0.8618972711089271 -0.49221768575095876 -0.1218804491662014 0.0047607189179892165
   controller "<extern>"
   supervisor TRUE
@@ -102,9 +103,14 @@ Robotti {
     Accelerometer {
     }
     GPS {
+      translation 0.6 0.25 1
     }
     GPS {
-      translation -1 0 0
+      translation 0.6 0 1
+      name "gps_center"
+    }
+    GPS {
+      translation 0.6 -0.25 1
       name "gps_aux"
     }
   ]
@@ -114,7 +120,7 @@ Robot {
   supervisor TRUE
 }
 DEF FIELD_MUD SolidBox {
-  translation -10 0 0
+  translation 20 0 0
   name "field mud(1)"
   size 135 50 0.1
   contactMaterial "ground"
@@ -127,7 +133,7 @@ DEF FIELD_MUD SolidBox {
   castShadows FALSE
 }
 Crop {
-  translation -70 0 0.03
+  translation -40 1.4 0.03
   name "plant1"
   nRows 6
   nCols 200
@@ -137,7 +143,7 @@ Crop {
   missing 2
 }
 Crop {
-  translation -70 3.2 0.03
+  translation -40 4.6 0.03
   name "plant2"
   nRows 6
   nCols 200
@@ -147,7 +153,7 @@ Crop {
   missing 2
 }
 Crop {
-  translation -70 6.4 0.03
+  translation -40 7.8 0.03
   name "plant3"
   nRows 6
   nCols 200
@@ -157,7 +163,7 @@ Crop {
   missing 3
 }
 Crop {
-  translation -70 -3.2 0.03
+  translation -40 -1.8 0.03
   name "plant4"
   nRows 6
   nCols 200
@@ -167,7 +173,7 @@ Crop {
   missing 3
 }
 Crop {
-  translation -70 -6.4 0.03
+  translation -40 -5 0.03
   name "plant5"
   nRows 6
   nCols 200
