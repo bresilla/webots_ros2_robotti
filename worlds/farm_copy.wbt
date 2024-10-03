@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 
 EXTERNPROTO "../protos/Robotti.proto"
+EXTERNPROTO "../protos/Crop.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Soil.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
@@ -30,8 +31,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.01816439154988384 0.9998016314224114 -0.008170231618957694 0.5709523993303506
-  position -69.57195732327864 -2.165385965841368 58.436048213908514
+  orientation 0.00959848427342443 0.9991538422576531 -0.03999335696614782 0.47118325060365285
+  position -23.898015447621017 -0.7069230707357679 13.034581304031793
   follow "Robotti"
   followType "None"
 }
@@ -105,7 +106,7 @@ Robotti {
       translation 0.6 0.25 1
     }
     GPS {
-      translation -0.03 0 1
+      translation 0.6 0 1
       name "gps_center"
     }
     GPS {
@@ -121,7 +122,7 @@ Robot {
 DEF FIELD_MUD SolidBox {
   translation 20 0 0
   name "field mud(1)"
-  size 200 200 0.1
+  size 135 50 0.1
   contactMaterial "ground"
   appearance Soil {
     textureTransform TextureTransform {
@@ -130,4 +131,54 @@ DEF FIELD_MUD SolidBox {
     color 0.233341 0.176318 0.112779
   }
   castShadows FALSE
+}
+Crop {
+  translation -40 1.4 0.03
+  name "plant1"
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 2
+}
+Crop {
+  translation -40 4.6 0.03
+  name "plant2"
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 2
+  missing 2
+}
+Crop {
+  translation -40 7.8 0.03
+  name "plant3"
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 3
+}
+Crop {
+  translation -40 -1.8 0.03
+  name "plant4"
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 2
+  missing 3
+}
+Crop {
+  translation -40 -5 0.03
+  name "plant5"
+  nRows 6
+  nCols 200
+  nScale 4
+  distance 30 40 0
+  uniformity 3
+  missing 2
 }
