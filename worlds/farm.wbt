@@ -15,7 +15,7 @@ WorldInfo {
   CFM 0.0001
   ERP 0.4
   gpsCoordinateSystem "WGS84"
-  gpsReference 52.5354 5.56031 0
+  gpsReference 51.9873 5.66362 0
   lineScale 1
   contactProperties [
     ContactProperties {
