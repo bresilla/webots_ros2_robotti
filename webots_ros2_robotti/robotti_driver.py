@@ -43,7 +43,7 @@ class RobottiDriver:
         self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
         self.gps_aux = self.__node.create_publisher(NavSatFix, self.name + "/gps_aux", 10)
         self.__node.create_subscription(FloatStamped, '/Robotti/compass/bearing', self.compass_callback, 10)
-        self.compass = self.__node.create_publisher(Float32, self.name + "/angle_rad", 10)
+        self.compass = self.__node.create_publisher(Float32, self.name + "/heading", 10)
         self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
         self.__node.create_subscription(Twist, self.name + '/cmd_vel', self.__cmd_vel_callback, 1)
 
@@ -62,7 +62,7 @@ class RobottiDriver:
 
     def compass_callback(self, msg):
         self.heading.data = msg.data
-        # self.compass.publish(self.heading)
+        self.compass.publish(self.heading)
 
     def timer_callback(self):
         self.gps_aux.publish(self.gps_aux_msg)
