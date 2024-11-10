@@ -14,6 +14,7 @@ class RobottiDriver:
         self.__robot = webots_node.robot
         self.FRONT_WHEEL_RADIUS = 0.7
         self.WHEEL_SEPARATION = 3.0
+        self.name = self.__robot.getName()
 
         self.left_front_wheel = self.__robot.getDevice("left_front_wheel_joint_motor")
         self.left_front_wheel.setPosition(float('inf'))
@@ -32,18 +33,19 @@ class RobottiDriver:
         rclpy.init(args=None)
         self.__node = rclpy.create_node('robotti_node')
 
+
         self.gps_main_msg = NavSatFix()
         self.gps_aux_msg = NavSatFix()
         self.heading = Float32()
 
         self.__node.create_subscription(NavSatFix, '/Robotti/gps', self.main_callback, 10)
-        self.gps_main = self.__node.create_publisher(NavSatFix, "/gps_main", 10)
+        self.gps_main = self.__node.create_publisher(NavSatFix, self.name + "/gps_main", 10)
         self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
-        self.gps_aux = self.__node.create_publisher(NavSatFix, "/gps_aux", 10)
+        self.gps_aux = self.__node.create_publisher(NavSatFix, self.name + "/gps_aux", 10)
         self.__node.create_subscription(FloatStamped, '/Robotti/compass/bearing', self.compass_callback, 10)
-        self.compass = self.__node.create_publisher(Float32, "/angle_rad", 10)
+        self.compass = self.__node.create_publisher(Float32, self.name + "/angle_rad", 10)
         self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
-        self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
+        self.__node.create_subscription(Twist, self.name + '/cmd_vel', self.__cmd_vel_callback, 1)
 
         #timer
         self.__node.create_timer(0.001, self.timer_callback)
@@ -52,7 +54,7 @@ class RobottiDriver:
         msg.header.frame_id = "gps_main"
         self.gps_main_msg = msg
         # self.gps_main.publish(self.gps_main_msg)
-    
+
     def aux_callback(self, msg):
         msg.header.frame_id = "gps_aux"
         self.gps_aux_msg = msg

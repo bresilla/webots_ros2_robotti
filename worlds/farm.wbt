@@ -31,7 +31,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.01816439154988384 0.9998016314224114 -0.008170231618957694 0.5709523993303506
-  position -69.57195732327864 -2.165385965841368 58.436048213908514
+  position -43.68457395955621 -2.212608851754837 41.81185207780016
   follow "Robotti"
   followType "None"
 }
@@ -121,11 +121,11 @@ Robot {
 DEF FIELD_MUD SolidBox {
   translation 20 0 0
   name "field mud(1)"
-  size 200 200 0.1
+  size 5000 5000 0.1
   contactMaterial "ground"
   appearance Soil {
     textureTransform TextureTransform {
-      scale 100 100
+      scale 5000 5000
     }
     color 0.233341 0.176318 0.112779
   }
