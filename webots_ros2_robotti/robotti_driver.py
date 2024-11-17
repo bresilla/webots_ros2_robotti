@@ -38,13 +38,13 @@ class RobottiDriver:
         self.gps_aux_msg = NavSatFix()
         self.heading = Float32()
 
-        self.__node.create_subscription(NavSatFix, '/Robotti/gps', self.main_callback, 10)
+        self.__node.create_subscription(NavSatFix, self.name + '/gps', self.main_callback, 10)
         self.gps_main = self.__node.create_publisher(NavSatFix, self.name + "/gps_main", 10)
-        self.__node.create_subscription(NavSatFix, '/Robotti/gps_aux', self.aux_callback, 10)
+        self.__node.create_subscription(NavSatFix, self.name + '/gps_aux', self.aux_callback, 10)
         self.gps_aux = self.__node.create_publisher(NavSatFix, self.name + "/gps_aux", 10)
-        self.__node.create_subscription(FloatStamped, '/Robotti/compass/bearing', self.compass_callback, 10)
+        self.__node.create_subscription(FloatStamped, self.name + '/compass/bearing', self.compass_callback, 10)
         self.compass = self.__node.create_publisher(Float32, self.name + "/angle_rad", 10)
-        self.__node.create_subscription(AckermannDrive, 'cmd_ackermann', self.__cmd_ackermann_callback, 1)
+        self.__node.create_subscription(AckermannDrive, self.name + '/cmd_ackermann', self.__cmd_ackermann_callback, 1)
         self.__node.create_subscription(Twist, self.name + '/cmd_vel', self.__cmd_vel_callback, 1)
 
         #timer
