@@ -1,4 +1,5 @@
 import rclpy
+import math
 from ackermann_msgs.msg import AckermannDrive
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import NavSatFix, Imu
@@ -44,9 +45,10 @@ class RobottiDriver:
         self.gps_aux = self.__node.create_publisher(NavSatFix, self.name + "/gnss/fix_aux", 10)
         self.__node.create_subscription(FloatStamped, self.name + '/compass/bearing', self.compass_callback, 10)
         self.compass = self.__node.create_publisher(Float32, self.name + "/gnss/heading", 10)
+        self.compass_deg = self.__node.create_publisher(Float32, self.name + "/compass/degrees", 10)
+        self.compass_rad = self.__node.create_publisher(Float32, self.name + "/compass/radians", 10)
         self.__node.create_subscription(AckermannDrive, self.name + '/cmd_ackermann', self.__cmd_ackermann_callback, 1)
         self.__node.create_subscription(Twist, self.name + '/cmd_vel', self.__cmd_vel_callback, 1)
-
         #timer
         self.__node.create_timer(0.001, self.timer_callback)
 
@@ -70,6 +72,10 @@ class RobottiDriver:
         # reverse heading to match ROS convention
         self.heading.data = -self.heading.data
         self.compass.publish(self.heading)
+        self.compass_deg.publish(self.heading)
+        heading_rad = Float32()
+        heading_rad.data = self.heading.data * math.pi / 180
+        self.compass_rad.publish(heading_rad)
 
 
     def __cmd_ackermann_callback(self, message):
