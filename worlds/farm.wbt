@@ -6,6 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Grass.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/dji/mavic/protos/Mavic2Pro.proto"
 
 WorldInfo {
   info [
@@ -17,6 +18,10 @@ WorldInfo {
   gpsCoordinateSystem "WGS84"
   gpsReference 51.9873 5.66362 0
   lineScale 1
+  defaultDamping Damping {
+    linear 0.5
+    angular 0.5
+  }
   contactProperties [
     ContactProperties {
       material1 "ground"
@@ -30,8 +35,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.01816439154988384 0.9998016314224114 -0.008170231618957694 0.5709523993303506
-  position -43.68457395955621 -2.212608851754837 41.81185207780016
+  orientation -0.06081111714570725 0.4945454198654479 0.8670218196340844 0.28583078318900895
+  position -24.301197976958942 -11.203626406308084 6.115198542002472
   follow "Robotti"
   followType "None"
 }
@@ -90,8 +95,30 @@ Solid {
   locked TRUE
 }
 Robotti {
-  translation 0 0 0.013703
-  rotation -0.8618972711089271 -0.49221768575095876 -0.1218804491662014 0.0047607189179892165
+  hidden position_0_0 -0.0002977593680939948
+  hidden position_0_1 0.008254505031858782
+  hidden linearVelocity_0 -0.0037428719473752703 0.00030092325034539614 -0.0032576343125994495
+  hidden angularVelocity_0 -0.005761205719977944 -0.026902749497508777 0.0005311146896606637
+  hidden rotation_8 0 -1 0 0.0002977593687172878
+  hidden position_32_0 -0.006110989992480675
+  hidden position_32_1 -0.006280030370135229
+  hidden rotation_33 0 0 -1 0.006110989992456244
+  hidden position_33_0 0.0006128784303714055
+  hidden rotation_34 0 1 0 0.0006128784300899115
+  hidden rotation_35 0 0 -1 0.0062800303701286125
+  hidden position_35_0 0.000659040576466002
+  hidden rotation_36 0 1 0 0.0006590405766316945
+  hidden rotation_37 0 1 0 0.008254505031858475
+  hidden position_37_0 0.005854007784119042
+  hidden position_37_1 0.005872282095292076
+  hidden rotation_38 0 0 1 3.147444007784119
+  hidden position_38_0 -0.000122976809792926
+  hidden rotation_39 0 1 0 0.00012297680882816057
+  hidden rotation_40 0 0 1 3.147462282095292
+  hidden position_40_0 -0.00014686388282132123
+  hidden rotation_41 0 0.9999999999999999 0 0.00014686388231673742
+  translation 0.0010094988872958732 -0.004293868379869559 0.015115533009079973
+  rotation -0.968907629493272 0.13826081340153026 -0.20518760437042866 0.0033915726137227517
   controller "<extern>"
   supervisor TRUE
   implementSlot [
@@ -130,4 +157,24 @@ DEF FIELD_MUD SolidBox {
     color 0.233341 0.176318 0.112779
   }
   castShadows FALSE
+}
+SquareManhole {
+  translation -3.39327 -6.51026 0.03
+  rotation 0 0 1 -1.5707953071795862
+}
+Mavic2Pro {
+  translation -3.39327 -6.51026 0.12
+  name "Mavic2Pro"
+  controller "<extern>"
+  bodySlot [
+    Accelerometer {
+    }
+  ]
+  cameraSlot [
+    Camera {
+      width 400
+      height 240
+      near 0.2
+    }
+  ]
 }

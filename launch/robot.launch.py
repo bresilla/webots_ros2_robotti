@@ -29,11 +29,22 @@ def generate_launch_description():
     )
 
 
+    drone_description_path = os.path.join(package_dir, 'resource', 'mavic_webots.urdf')
+    mavic_driver = WebotsController(
+        robot_name='Mavic2Pro',
+        parameters=[
+            {'robot_description': drone_description_path},
+        ],
+        respawn=True
+    )
+
+
     return LaunchDescription([
         DeclareLaunchArgument('world', default_value='farm.wbt'),
         webots,
         webots._supervisor,
         robotti_driver,
+        mavic_driver,
 
         # This action will kill all nodes once the Webots simulation has exited
         launch.actions.RegisterEventHandler(
